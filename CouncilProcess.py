@@ -5,6 +5,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from datetime import datetime
 import time
 from Email import Email
+from AnticaptchaApi import AnticaptchaApi
 
 
 class CouncilProcess:
@@ -16,8 +17,14 @@ class CouncilProcess:
         self.driver.get(self.url)
 
         image = WebDriverWait(self.driver, timeout=10).until(lambda d: d.find_element(by=By.XPATH, value='//*[@alt="Необходимо включить загрузку картинок в браузере."]'))
-        base64 = image.screenshot_as_base64
+
+        anticap = AnticaptchaApi(image.screenshot_as_base64)
+        captcha_text = anticap.solve()
+        print(captcha_text)
+
+        if captcha_text:
+            self.send()
+
+    def send(self):
         email = Email(self.url)
         email.send()
-
-        time.sleep(3)
