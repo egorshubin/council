@@ -6,6 +6,7 @@ from Email import Email
 from AnticaptchaApi import AnticaptchaApi
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from Db import Db
 import os
 from dotenv import load_dotenv
 
@@ -29,6 +30,8 @@ class CouncilProcess:
         anticap = AnticaptchaApi(image.screenshot_as_base64)
         captcha_text = anticap.solve()
         result = self.walk_on_site(captcha_text)
+
+        Db(result, self.url).log()
 
         if captcha_text:
             self.send(result)

@@ -14,7 +14,10 @@ def start_process(url2):
 
 
 def set_timer(url1):
-    t = Timer(get_random_time(), start_process, [url1])
+    if bool(int(os.environ.get("TEST_MODE"))):
+        t = Timer(5, start_process, [url1])
+    else:
+        t = Timer(get_random_time(), start_process, [url1])
     t.start()
 
 
