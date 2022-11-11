@@ -1,12 +1,28 @@
+from threading import Timer
+from CouncilProcess import CouncilProcess
+import random
 import os
 from dotenv import load_dotenv
 
-from CouncilProcess import CouncilProcess
 _ = load_dotenv()
+
+
+def start_process(url2):
+    process = CouncilProcess(url2)
+    process.run()
+    set_timer(url2)
+
+
+def set_timer(url1):
+    t = Timer(get_random_time(), start_process, [url1])
+    t.start()
+
+
+def get_random_time():
+    return random.randint(600, 3600)
+
 
 urls = os.environ.get("URLS").split(',')
 
 for url in urls:
-    process = CouncilProcess(url)
-    process.run()
-
+    set_timer(url)
