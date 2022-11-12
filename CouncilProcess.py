@@ -29,6 +29,7 @@ class CouncilProcess:
 
         anticap = AnticaptchaApi(image.screenshot_as_base64)
         captcha_text = anticap.solve()
+
         result = self.walk_on_site(captcha_text)
 
         Db(result, self.url).log()
@@ -51,6 +52,9 @@ class CouncilProcess:
         input_code.send_keys(captcha_text)
         input_code.send_keys(Keys.RETURN)
 
+        if self.captcha_error_exists():
+            return 0
+
         submit1 = self.driver.find_element(by=By.CLASS_NAME, value="btn")
         submit1.click()
 
@@ -67,3 +71,11 @@ class CouncilProcess:
             return 0
 
         return 1
+
+    def captcha_error_exists(self):
+        try:
+            WebDriverWait(self.driver, 10).until(
+                lambda d: d.find_element(by=By.ID, value='ctl00_MainContent_lblCodeErr'))
+        except:
+            return False
+        return True

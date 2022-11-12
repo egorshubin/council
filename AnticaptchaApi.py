@@ -1,4 +1,3 @@
-from anticaptchaofficial.antinetworking import *
 from anticaptchaofficial.imagecaptcha import *
 import os
 from dotenv import load_dotenv
