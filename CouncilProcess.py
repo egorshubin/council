@@ -32,17 +32,19 @@ class CouncilProcess:
 
         result = self.walk_on_site(captcha_text)
 
-        Db(result, self.url).log()
+        message = (self.url + ' ___ ' + result)
+
+        Db(int(bool(result)), self.url).log()
 
         if captcha_text:
-            self.send(result)
+            self.send(result, message)
 
-    def send(self, result):
+    def send(self, result, message):
         if bool(int(os.environ.get("TEST_MODE"))):
             email = Email(str(result))
             email.send()
         elif bool(int(result)):
-            email = Email(self.url)
+            email = Email(message)
             email.send()
         else:
             print('No email')
@@ -70,7 +72,16 @@ class CouncilProcess:
         if calendar.get_attribute('disabled'):
             return 0
 
-        return 1
+        main = WebDriverWait(self.driver, timeout=10).until(
+            lambda d: d.find_element(by=By.ID, value='center-panel'))
+
+        labels = self.driver.find_elements(by=By.TAG_NAME, value='label')
+
+        txt_labels = []
+        for element in labels:
+            txt_labels.append(element.text)
+
+        return ' / '.join(txt_labels)
 
     def captcha_error_exists(self):
         try:
