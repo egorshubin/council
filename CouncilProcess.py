@@ -32,7 +32,7 @@ class CouncilProcess:
 
         result = self.walk_on_site(captcha_text)
 
-        message = (self.url + ' ___ ' + result)
+        message = str(result) + ' ' + str(self.url)
 
         Db(int(bool(result)), self.url).log()
 
@@ -43,7 +43,7 @@ class CouncilProcess:
         if bool(int(os.environ.get("TEST_MODE"))):
             email = Email(str(result))
             email.send()
-        elif result != "0":
+        elif result != 0:
             email = Email(message)
             email.send()
         else:
