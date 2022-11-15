@@ -75,7 +75,7 @@ class CouncilProcess:
         main = WebDriverWait(self.driver, timeout=10).until(
             lambda d: d.find_element(by=By.ID, value='center-panel'))
 
-        labels = self.driver.find_elements(by=By.TAG_NAME, value='label')
+        labels = main.find_elements(by=By.TAG_NAME, value='label')
 
         txt_labels = []
         for element in labels:
