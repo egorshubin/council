@@ -43,7 +43,7 @@ class CouncilProcess:
         if bool(int(os.environ.get("TEST_MODE"))):
             email = Email(str(result))
             email.send()
-        elif bool(int(result)):
+        elif result != "0":
             email = Email(message)
             email.send()
         else:
