@@ -4,7 +4,7 @@ from datetime import datetime
 
 class Db:
     def __init__(self, result, message):
-        self.connection = sqlite3.connect('council.db')
+        self.connection = sqlite3.connect('C:\council\council.db')
         self.cursor = self.connection.cursor()
 
         sql = """CREATE TABLE IF NOT EXISTS logs(id INTEGER AUTO_INCREMENT PRIMARY KEY, 

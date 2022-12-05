@@ -10,7 +10,7 @@ _ = load_dotenv()
 def start_process(url2):
     process = CouncilProcess(url2)
     process.run()
-    set_timer(url2)
+    # set_timer(url2)
 
 
 def set_timer(url1):
